@@ -3,7 +3,18 @@ import 'package:equatable/equatable.dart';
 
 part 'router_state.dart';
 
+int getIndex(RouterState state) {
+  return switch (state) {
+    SplashRoute() => 0,
+    LibraryRoute() => 1,
+    ReaderRoute() => 2,
+    PreviewRoute() => 3,
+  };
+}
+
 class RouterCubit extends Cubit<RouterState> {
+  String? _lastDocumentId;
+
   RouterCubit() : super(const SplashRoute()) {
     splash();
   }
@@ -16,9 +27,51 @@ class RouterCubit extends Cubit<RouterState> {
     emit(const LibraryRoute());
   }
 
+  void toSplash() => splash();
+
   void toLibrary() => emit(const LibraryRoute());
 
-  void toReader(String documentId) => emit(ReaderRoute(documentId));
+  void toReader(String? documentId) {
+    final id = documentId ?? _lastDocumentId;
 
-  void toPreview(String documentId) => emit(PreviewRoute(documentId));
+    if (id == null) {
+      emit(const LibraryRoute());
+      return;
+    }
+
+    _lastDocumentId = id;
+    emit(ReaderRoute(id));
+  }
+
+  void toPreview(String? documentId) {
+    final id = documentId ?? _lastDocumentId;
+
+    if (id == null) {
+      emit(const LibraryRoute());
+      return;
+    }
+
+    _lastDocumentId = id;
+    emit(PreviewRoute(id));
+  }
+
+  void toIndex(int index) {
+    switch (index) {
+      case 0:
+        toSplash();
+        break;
+      case 1:
+        toLibrary();
+        break;
+      case 2:
+        toReader(null);
+        break;
+      case 3:
+        toPreview(null);
+        break;
+      default:
+        toLibrary();
+        break;
+    }
+  }
 }
