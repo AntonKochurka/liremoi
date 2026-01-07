@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class LibraryPage extends StatelessWidget {
-  const LibraryPage({super.key});
+class ReaderPage extends StatefulWidget {
+  final String documentId;
 
+  const ReaderPage({super.key, required this.documentId});
+
+  @override
+  State<ReaderPage> createState() => _ReaderPageState();
+}
+
+class _ReaderPageState extends State<ReaderPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -11,7 +18,7 @@ class LibraryPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Library',
+            'Reader: ${widget.documentId}',
             style: Theme.of(
               context,
             ).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -20,7 +27,7 @@ class LibraryPage extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                'Your documents will appear here.',
+                'Your book will appear here.',
                 style: Theme.of(context).textTheme.bodySmall,
                 textAlign: TextAlign.center,
               ),

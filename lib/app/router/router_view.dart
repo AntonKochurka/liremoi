@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
+import 'package:liremoi/shared/widget/layout.dart';
+
 import 'package:liremoi/features/library/view/page.dart';
 import 'package:liremoi/features/splash/view/page.dart';
-import 'package:liremoi/shared/widget/layout.dart';
+import 'package:liremoi/features/reader/view/page.dart';
 
 import 'router_cubit.dart';
 
@@ -19,8 +22,7 @@ class RouterView extends StatelessWidget {
     final page = switch (state) {
       LibraryRoute() => const LibraryPage(),
 
-      // ReaderRoute(:final documentId) =>
-      // ReaderPage(documentId: documentId),
+      ReaderRoute(:final documentId) => ReaderPage(documentId: documentId),
 
       // PreviewRoute(:final documentId) =>
       // PreviewPage(documentId: documentId),
