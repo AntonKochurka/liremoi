@@ -9,6 +9,8 @@ int getIndex(RouterState state) {
     LibraryRoute() => 1,
     ReaderRoute() => 2,
     PreviewRoute() => 3,
+    // ignore: unreachable_switch_case
+    _ => 0,
   };
 }
 
@@ -35,7 +37,8 @@ class RouterCubit extends Cubit<RouterState> {
     final id = documentId ?? _lastDocumentId;
 
     if (id == null) {
-      emit(const LibraryRoute());
+      // emit(const LibraryRoute());
+      emit(ReaderRoute("documentId"));
       return;
     }
 

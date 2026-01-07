@@ -12,9 +12,9 @@ class AppLayout extends StatelessWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: context.select((RouterCubit c) => getIndex(c.state)),
+        currentIndex: context.select((RouterCubit c) => getIndex(c.state) - 1),
         onTap: (index) {
-          context.read<RouterCubit>().toIndex(index);
+          context.read<RouterCubit>().toIndex(index + 1);
         },
         items: const [
           BottomNavigationBarItem(
