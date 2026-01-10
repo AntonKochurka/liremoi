@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app/app.dart';
 import 'app/router/router_cubit.dart';
-import 'di/injection.dart';
+import 'core/di.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

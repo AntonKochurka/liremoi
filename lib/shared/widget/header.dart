@@ -9,6 +9,7 @@ class AppHeader extends StatelessWidget {
   final Color? iconColor;
   final bool withDivider;
   final EdgeInsetsGeometry padding;
+  final VoidCallback? onThemeToggle;
 
   const AppHeader({
     super.key,
@@ -19,6 +20,7 @@ class AppHeader extends StatelessWidget {
     this.iconColor,
     this.withDivider = true,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4),
+    this.onThemeToggle,
   });
 
   @override
@@ -52,44 +54,139 @@ class AppHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: center
                 ? MainAxisAlignment.center
-                : MainAxisAlignment.start,
+                : MainAxisAlignment.spaceBetween,
             children: [
-              if (icon != null) ...[
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color:
-                        iconColor?.withAlpha(40) ??
-                        (isDark
-                            ? AppColors.darkHighlight.withAlpha(40)
-                            : AppColors.lightHighlight.withAlpha(40)),
-                    shape: BoxShape.circle,
+              Row(
+                mainAxisAlignment: center
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
+                children: [
+                  if (icon != null) ...[
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color:
+                            iconColor?.withAlpha(40) ??
+                            (isDark
+                                ? AppColors.darkHighlight.withAlpha(40)
+                                : AppColors.lightHighlight.withAlpha(40)),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        icon,
+                        color:
+                            iconColor ??
+                            (isDark
+                                ? AppColors.darkHighlight
+                                : AppColors.lightHighlight),
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: titleStyle,
+                      textAlign: center ? TextAlign.center : TextAlign.start,
+                    ),
                   ),
-                  child: Icon(
-                    icon,
-                    color:
-                        iconColor ??
-                        (isDark
-                            ? AppColors.darkHighlight
-                            : AppColors.lightHighlight),
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 12),
-              ],
-              Flexible(
-                child: Text(
-                  title,
-                  style: titleStyle,
-                  textAlign: center ? TextAlign.center : TextAlign.start,
-                ),
+                ],
               ),
+              if (onThemeToggle != null && !center) ...[
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: 60,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      colors: isDark
+                          ? [Color(0xFF2D2D2D), Color(0xFF404040)]
+                          : [Color(0xFFE5E5E5), Colors.white],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.shadow,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        left: isDark ? 30 : 2,
+                        top: 2,
+                        child: GestureDetector(
+                          onTap: onThemeToggle,
+                          child: Container(
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: isDark
+                                    ? [Color(0xFF90A4AE), Color(0xFF607D8B)]
+                                    : [
+                                        AppColors.lightHighlight,
+                                        Color(0xFFFFA726),
+                                      ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              isDark ? Icons.nightlight_round : Icons.wb_sunny,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 8,
+                        top: 9,
+                        child: Icon(
+                          Icons.wb_sunny,
+                          size: 14,
+                          color: isDark
+                              ? AppColors.darkAccent.withAlpha(120)
+                              : AppColors.lightHighlight,
+                        ),
+                      ),
+                      Positioned(
+                        right: 8,
+                        top: 9,
+                        child: Icon(
+                          Icons.nightlight_round,
+                          size: 14,
+                          color: isDark
+                              ? AppColors.darkSecondary
+                              : AppColors.lightAccent.withAlpha(120),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ),
           if (subtitle != null) ...[
             const SizedBox(height: 4),
             Container(
-              constraints: BoxConstraints(maxWidth: 500),
+              constraints: const BoxConstraints(maxWidth: 500),
               child: Text(
                 subtitle!,
                 style: subtitleStyle,
@@ -112,7 +209,7 @@ class AppHeader extends StatelessWidget {
                         : AppColors.lightAccent.withAlpha(60)),
                     Colors.transparent,
                   ],
-                  stops: [0.0, 0.5, 1.0],
+                  stops: const [0.0, 0.5, 1.0],
                 ),
               ),
             ),
