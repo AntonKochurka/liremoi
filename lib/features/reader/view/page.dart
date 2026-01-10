@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:liremoi/core/style.dart';
+import 'package:liremoi/core/theme/style.dart';
 import 'package:liremoi/shared/widget/header.dart';
 
 class ReaderPage extends StatefulWidget {

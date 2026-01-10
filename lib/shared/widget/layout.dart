@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liremoi/app/router/router_cubit.dart';
-import 'package:liremoi/core/style.dart';
+import 'package:liremoi/core/theme/style.dart';
 
 class AppLayout extends StatelessWidget {
   final Widget child;
