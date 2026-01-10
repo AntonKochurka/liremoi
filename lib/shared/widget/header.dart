@@ -99,7 +99,9 @@ class AppHeader extends StatelessWidget {
                   child: Icon(
                     isDark ? Icons.nightlight_round : Icons.wb_sunny,
                     size: 20,
-                    color: Colors.white,
+                    color: isDark
+                        ? AppColors.darkPrimary
+                        : AppColors.lightPrimary,
                   ),
                 ),
               ),

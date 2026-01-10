@@ -9,7 +9,9 @@ part 'database.g.dart';
 
 class Books extends Table {
   TextColumn get id => text()();
+
   TextColumn get title => text()();
+
   TextColumn get filePath => text()();
   DateTimeColumn get createdAt => dateTime()();
 
